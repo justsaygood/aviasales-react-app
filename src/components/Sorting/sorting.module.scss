@@ -1,0 +1,65 @@
+.sorting {
+    align-items: stretch;
+    display: flex;
+    margin-bottom: 20px;
+    width: 100%;
+
+    :global .ant-radio-group {
+        width: 100%;
+    }
+
+    :global .ant-radio-button-wrapper {
+        align-items: center;
+        border-color: #dfe5ec;
+        color: #4a4a4a;
+        display: inline-flex;
+        font-size: 1rem;
+        height: auto;
+        justify-content: center;
+        text-align: center;
+        width: 33.3333333333%;
+        padding: 12px 20px;
+
+        @media (max-width: 767px) {
+            width: 100%;
+            padding: 10px 15px;
+        }
+    }
+
+    :global .ant-radio-button-wrapper span {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.65em;
+        text-transform: uppercase;
+        white-space: nowrap;
+
+        @media (max-width: 480px) {
+            white-space: break-spaces;
+        }
+}
+
+    :global .ant-radio-button-wrapper:first-child {
+        border-bottom-left-radius: 6px;
+        border-top-left-radius: 6px;
+
+        @media (max-width: 767px) {
+                border-bottom-left-radius: unset;
+                border-top-right-radius: 6px;
+        }
+    }
+
+    :global .ant-radio-button-wrapper:last-child {
+        border-bottom-right-radius: 6px;
+        border-top-right-radius: 6px;
+
+        @media (max-width: 767px) {
+                border-bottom-left-radius: 6px;
+                border-top-right-radius: unset;
+        }
+    }
+
+    :global .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+        background: #2196f3;
+        border-color: #2196f3;
+    }
+}
