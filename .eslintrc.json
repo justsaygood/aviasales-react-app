@@ -38,7 +38,8 @@
     "react/state-in-constructor": 0,
     "react/react-in-jsx-scope": "off",
     "class-methods-use-this": "off",
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }]
   },
   "settings": {
     "react": {
