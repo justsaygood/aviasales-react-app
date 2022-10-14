@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Checkbox } from 'antd'
 
-// import defaultSelected from '../../filtersFeatures'
 import * as filtersActions from '../../filtersFeatures'
 
 import classes from './filters.module.scss'
@@ -16,13 +15,11 @@ export default function Filters() {
   ]
 
   const allFilters = Array.from(filterOptions, (x) => x.value)
-  // const defaultSelected = ['wo', 'w1', 'w2', 'w3']
 
   const dispatch = useDispatch()
   const checkedFilter = useSelector((state) => state.filters.checkedItems)
   const indeterminateFilter = useSelector((state) => state.filters.indeterminate)
   const checkedAllFilter = useSelector((state) => state.filters.checkAll)
-  console.log(allFilters)
 
   const filtersOnCheck = (items) => {
     dispatch(filtersActions.setCheckedItems(items))
@@ -36,9 +33,9 @@ export default function Filters() {
     dispatch(filtersActions.setCheckAll(e.target.checked))
   }
 
-  /* useEffect(() => {
-    filtersOnCheck(defaultSelected)
-  }, []) */
+  useEffect(() => {
+    filtersOnCheck([])
+  }, [])
 
   return (
     <aside className={classes.filters}>

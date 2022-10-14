@@ -2,7 +2,7 @@ import React from 'react'
 
 import Logo from '../../images/Logo.png'
 import Filters from '../Filters/filters'
-import Tickets from '../Tickets/tickets'
+import TicketList from '../TicketList/ticket-list'
 
 import 'antd/dist/antd.css'
 import classes from './app.module.scss'
@@ -16,7 +16,7 @@ export default function App() {
         </div>
         <section className={classes['app-body']}>
           <Filters />
-          <Tickets />
+          <TicketList />
         </section>
       </div>
     </main>

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-// export const defaultSelected = []
 export const filtersSlice = createSlice({
   name: 'filters',
   initialState: {

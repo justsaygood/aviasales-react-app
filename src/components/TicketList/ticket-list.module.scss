@@ -7,6 +7,19 @@
         margin: 20px auto 0;
         width: 80%;
     }
+
+    .app-tickets-not-found {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #cef;
+        margin-top: 20px;
+        padding: 20px;
+        text-transform: none;
+        font-weight: bold;
+        border-radius: 5px;
+        border: 1px solid #dfe5ec;
+    }
 }
 
 ul {
