@@ -29,7 +29,7 @@ export default function Ticket({ data }) {
     <li className={classes.ticket}>
       <div className={classes['ticket-body']}>
         <div className={classes['ticket-price-logo']}>
-          <span className={classes['ticket-price']}>`${data.price} ₽`</span>
+          <span className={classes['ticket-price']}>{data.price} ₽</span>
           <img
             className={classes['ticket-logo']}
             src={`https://pics.avs.io/99/36/${data.carrier}.png`}

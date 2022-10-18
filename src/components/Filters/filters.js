@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Checkbox } from 'antd'
 
 import * as filtersActions from '../../filtersFeatures'
+import { fetchTickets } from '../../ticketsFeatures'
 
 import classes from './filters.module.scss'
 
@@ -36,6 +37,10 @@ export default function Filters() {
   useEffect(() => {
     filtersOnCheck([])
   }, [])
+
+  useEffect(() => {
+    dispatch(fetchTickets())
+  }, [checkedFilter])
 
   return (
     <aside className={classes.filters}>

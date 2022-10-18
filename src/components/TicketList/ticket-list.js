@@ -1,20 +1,21 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Spin, Result } from 'antd'
 
 import Sorting from '../Sorting/sorting'
 import Ticket from '../Ticket/ticket'
+import { setTicketsCount } from '../../ticketsFeatures'
 
 import classes from './ticket-list.module.scss'
 
 export default function TicketList() {
-  const { ticketsCount } = useSelector((state) => state.tickets.ticketsCount)
+  const dispatch = useDispatch()
+  const ticketsCount = useSelector((state) => state.tickets.ticketsCount)
 
   const tickets = useSelector((state) => state.tickets.value)
   const ticketsLoading = useSelector((state) => state.tickets.loading)
   const ticketsError = useSelector((state) => state.tickets.error)
 
-  // data = from, to, price
   const ticketsRender = tickets.slice(0, ticketsCount).map((item, id) => {
     const { carrier, price } = item
     const [from, to] = [item.segments[0], item.segments[1]]
@@ -22,8 +23,10 @@ export default function TicketList() {
     return <Ticket key={`t${id + 1}`} data={{ carrier, price, from, to }} />
   })
 
+  // console.log(ticketsRender.length)
+
   const noResults = (
-    <div className={classes['app-tickets-not-found']}>Рейсов, подходящих под заданныефильтры, не найдено</div>
+    <div className={classes['app-tickets-not-found']}>Рейсов, подходящих под заданные фильтры, не найдено</div>
   )
 
   const errorResults = (
@@ -41,6 +44,11 @@ export default function TicketList() {
     </div>
   )
 
+  const onHandle = () => {
+    dispatch(setTicketsCount())
+    console.log('click more-tickets', ticketsCount)
+  }
+
   return (
     <section className={classes['app-tickets']}>
       <Sorting />
@@ -48,10 +56,14 @@ export default function TicketList() {
         {(ticketsLoading && spinner) || null}
         {(!ticketsLoading && ticketsError && errorResults) || null}
         {(ticketsRender.length && ticketsRender) || (!ticketsLoading && !ticketsError && noResults)}
+        {ticketsRender.length >= ticketsCount && !errorResults}
       </ul>
-      <button type="button" className={classes['app-button-more']}>
-        Показать еще
-      </button>
+      {(ticketsLoading && ticketsError) || null}
+      {ticketsRender.length >= ticketsCount && ticketsLoading ? (
+        <button type="button" className={classes['app-button-more']} onClick={onHandle}>
+          Показать еще
+        </button>
+      ) : null}
     </section>
   )
 }

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Radio } from 'antd'
 
 import * as sortingActions from '../../sortingFeatures'
+import { fetchTickets } from '../../ticketsFeatures'
 
 import classes from './sorting.module.scss'
 
@@ -13,6 +14,10 @@ export default function Sorting() {
   const sortingOnClick = (e) => {
     dispatch(sortingActions.setValue(e.target.value))
   }
+
+  useEffect(() => {
+    dispatch(fetchTickets())
+  }, [sortingValue])
 
   return (
     <div className={classes.sorting}>

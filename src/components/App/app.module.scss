@@ -22,7 +22,14 @@ body {
 }
 
 .app-logo {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+
+    img {
+
+    }
 }
 
 .app-body {
