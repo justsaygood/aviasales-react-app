@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Checkbox } from 'antd'
 
-import * as filtersActions from '../../filtersFeatures'
-import { fetchTickets } from '../../ticketsFeatures'
+import * as filtersActions from '../../redux/filtersFeatures'
+import { fetchTickets } from '../../redux/ticketsFeatures'
 
 import classes from './filters.module.scss'
 

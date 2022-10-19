@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import ApiService from './apiService'
-import { RequestError } from './utils/error'
+import ApiService from '../services/apiService'
+import { RequestError } from '../utils/error'
 
 export const fetchTickets = createAsyncThunk(
   'fetchTickets',
@@ -28,7 +28,7 @@ export const fetchTickets = createAsyncThunk(
         }
         throw err
       }
-      console.log(packetTickets)
+      // console.log(packetTickets)
 
       if (packetTickets.stop || signal.aborted || !filters.length) stop = true
       packetTickets.tickets = packetTickets.tickets.filter((ticket) =>
@@ -39,7 +39,6 @@ export const fetchTickets = createAsyncThunk(
       // eslint-disable-next-line no-use-before-define
       dispatch(supplyTickets(packetTickets.tickets))
     }
-    console.log(getState().tickets.value)
   }
 )
 
@@ -52,8 +51,10 @@ export const ticketsSlice = createSlice({
     ticketsCount: 5,
   },
   reducers: {
-    // eslint-disable-next-line no-void,no-return-assign,no-param-reassign
-    setTicketsCount: (state) => void (state.ticketsCount += 5),
+    // eslint-disable-next-line no-return-assign,no-param-reassign
+    setTicketsCount(state) {
+      state.ticketsCount += 5
+    },
     supplyTickets: (state, action) => {
       state.value = state.value.concat(action.payload)
     },
@@ -92,7 +93,6 @@ export const ticketsSlice = createSlice({
     },
     [fetchTickets.fulfilled]: (state) => {
       state.loading = false
-      console.log('Fulfilled!')
     },
     [fetchTickets.rejected]: (state, action) => {
       if (action.error.name !== 'AbortError') {

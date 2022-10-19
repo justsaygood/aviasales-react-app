@@ -4,7 +4,7 @@ import { Spin, Result } from 'antd'
 
 import Sorting from '../Sorting/sorting'
 import Ticket from '../Ticket/ticket'
-import { setTicketsCount } from '../../ticketsFeatures'
+import { setTicketsCount } from '../../redux/ticketsFeatures'
 
 import classes from './ticket-list.module.scss'
 
@@ -39,28 +39,23 @@ export default function TicketList() {
   )
 
   const spinner = (
-    <div className="centering-container" style={{ marginBottom: '15px' }}>
+    <div className={classes['centering-container']}>
       <Spin size="large" />
     </div>
   )
-
-  const onHandle = () => {
-    dispatch(setTicketsCount())
-    console.log('click more-tickets', ticketsCount)
-  }
 
   return (
     <section className={classes['app-tickets']}>
       <Sorting />
       <ul>
         {(ticketsLoading && spinner) || null}
-        {(!ticketsLoading && ticketsError && errorResults) || null}
+        {(!ticketsLoading && ticketsError && errorResults && ticketsRender.length === 0) || null}
         {(ticketsRender.length && ticketsRender) || (!ticketsLoading && !ticketsError && noResults)}
-        {ticketsRender.length >= ticketsCount && !errorResults}
+        {ticketsRender.length >= ticketsCount && !errorResults && !ticketsError}
       </ul>
       {(ticketsLoading && ticketsError) || null}
-      {ticketsRender.length >= ticketsCount && ticketsLoading ? (
-        <button type="button" className={classes['app-button-more']} onClick={onHandle}>
+      {ticketsRender.length >= ticketsCount ? (
+        <button type="button" className={classes['app-button-more']} onClick={() => dispatch(setTicketsCount())}>
           Показать еще
         </button>
       ) : null}

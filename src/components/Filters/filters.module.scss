@@ -7,10 +7,11 @@
     border-radius: 5px;
     box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
     padding: 10px 0 10px 15px;
+    margin-left: 20px;
 
     @media (max-width: 767px) {
         margin: 0 auto;
-        width: 80%;
+        width: 90%;
     }
 
     .filters-title {
