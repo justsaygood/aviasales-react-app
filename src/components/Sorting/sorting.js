@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Radio } from 'antd'
 
 import * as sortingActions from '../../redux/sortingFeatures'
-import { fetchTickets } from '../../redux/ticketsFeatures'
+import { sortTickets } from '../../redux/ticketsFeatures'
 
 import classes from './sorting.module.scss'
 
@@ -15,8 +15,12 @@ export default function Sorting() {
     dispatch(sortingActions.setValue(e.target.value))
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     dispatch(fetchTickets())
+  }, [sortingValue]) */
+
+  useEffect(() => {
+    dispatch(sortTickets(sortingValue))
   }, [sortingValue])
 
   return (

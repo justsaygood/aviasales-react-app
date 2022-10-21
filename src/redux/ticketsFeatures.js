@@ -51,7 +51,6 @@ export const ticketsSlice = createSlice({
     ticketsCount: 5,
   },
   reducers: {
-    // eslint-disable-next-line no-return-assign,no-param-reassign
     setTicketsCount(state) {
       state.ticketsCount += 5
     },
@@ -59,28 +58,26 @@ export const ticketsSlice = createSlice({
       state.value = state.value.concat(action.payload)
     },
     sortTickets: (state, action) => {
-      state.value = state.value
-        .sort((a, b) => {
-          let f1 = 0
-          let f2 = 0
-          switch (action.payload) {
-            case 'optimal':
-            /* falls through */
-            case 'cheap':
-              f1 = a.price - b.price
-              if (action.payload !== 'optimal') break
-            /* falls through */
-            case 'fast': {
-              // eslint-disable-next-line no-plusplus
-              for (let i = 0; i < a.segments.length; i++) f2 += a.segments[i].duration - b.segments[i].duration
-              break
-            }
-            default:
-              throw new Error('Invalid sort criterion')
+      state.value = state.value.sort((a, b) => {
+        let f1 = 0
+        let f2 = 0
+        switch (action.payload) {
+          case 'optimal':
+          /* falls through */
+          case 'cheap':
+            f1 = a.price - b.price
+            if (action.payload !== 'optimal') break
+          /* falls through */
+          case 'fast': {
+            // eslint-disable-next-line no-plusplus
+            for (let i = 0; i < a.segments.length; i++) f2 += a.segments[i].duration - b.segments[i].duration
+            break
           }
-          return f1 + f2
-        })
-        .slice(0, state.ticketsCount)
+          default:
+            throw new Error('Invalid sort criterion')
+        }
+        return f1 + f2
+      })
     },
     clear: (state) => {
       state.value = []

@@ -10,7 +10,7 @@ import classes from './ticket-list.module.scss'
 
 export default function TicketList() {
   const dispatch = useDispatch()
-  const ticketsCount = useSelector((state) => state.tickets.ticketsCount)
+  const { ticketsCount } = useSelector((state) => state.tickets)
 
   const tickets = useSelector((state) => state.tickets.value)
   const ticketsLoading = useSelector((state) => state.tickets.loading)
@@ -22,8 +22,6 @@ export default function TicketList() {
 
     return <Ticket key={`t${id + 1}`} data={{ carrier, price, from, to }} />
   })
-
-  // console.log(ticketsRender.length)
 
   const noResults = (
     <div className={classes['app-tickets-not-found']}>Рейсов, подходящих под заданные фильтры, не найдено</div>
@@ -44,6 +42,8 @@ export default function TicketList() {
     </div>
   )
 
+  console.log(ticketsCount, 'vs', ticketsRender.length, 'and', ticketsRender)
+
   return (
     <section className={classes['app-tickets']}>
       <Sorting />
@@ -54,7 +54,7 @@ export default function TicketList() {
         {ticketsRender.length >= ticketsCount && !errorResults && !ticketsError}
       </ul>
       {(ticketsLoading && ticketsError) || null}
-      {ticketsRender.length >= ticketsCount ? (
+      {ticketsRender.length > 0 ? (
         <button type="button" className={classes['app-button-more']} onClick={() => dispatch(setTicketsCount())}>
           Показать еще
         </button>
