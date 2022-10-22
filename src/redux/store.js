@@ -10,7 +10,6 @@ const store = configureStore({
     filters: filtersReducer,
     tickets: ticketsReducer,
   },
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 })
 
 export default store

@@ -16,7 +16,6 @@ export default function Filters() {
   ]
 
   const allFilters = Array.from(filterOptions, (x) => x.value)
-  console.log(allFilters)
 
   const dispatch = useDispatch()
   const checkedFilter = useSelector((state) => state.filters.checkedItems)
