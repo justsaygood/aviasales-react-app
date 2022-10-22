@@ -10,6 +10,7 @@ import classes from './ticket-list.module.scss'
 
 export default function TicketList() {
   const dispatch = useDispatch()
+
   const { ticketsCount } = useSelector((state) => state.tickets)
 
   const tickets = useSelector((state) => state.tickets.value)
@@ -42,15 +43,13 @@ export default function TicketList() {
     </div>
   )
 
-  console.log(ticketsCount, 'vs', ticketsRender.length, 'and', ticketsRender)
-
   return (
     <section className={classes['app-tickets']}>
       <Sorting />
       <ul>
         {(ticketsLoading && spinner) || null}
-        {(!ticketsLoading && ticketsError && errorResults && ticketsRender.length === 0) || null}
         {(ticketsRender.length && ticketsRender) || (!ticketsLoading && !ticketsError && noResults)}
+        {!ticketsLoading && ticketsError && ticketsRender.length === 0 && errorResults}
         {ticketsRender.length >= ticketsCount && !errorResults && !ticketsError}
       </ul>
       {(ticketsLoading && ticketsError) || null}

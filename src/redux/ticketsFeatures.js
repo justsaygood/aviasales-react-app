@@ -47,7 +47,7 @@ export const ticketsSlice = createSlice({
   initialState: {
     value: [],
     loading: false,
-    error: null,
+    error: '',
     ticketsCount: 5,
   },
   reducers: {
