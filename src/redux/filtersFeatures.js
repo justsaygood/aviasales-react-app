@@ -3,12 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 export const filtersSlice = createSlice({
   name: 'filters',
   initialState: {
-    checkedItems: [],
+    checkedItems: [0, 1, 2, 3],
     indeterminate: false,
     checkAll: true,
   },
   reducers: {
-    // console.log(current(state)
     // eslint-disable-next-line no-return-assign, no-param-reassign,no-void
     setCheckedItems: (state, action) => void (state.checkedItems = action.payload),
     // eslint-disable-next-line no-return-assign, no-param-reassign,no-void

@@ -22,6 +22,8 @@ export default function Filters() {
   const indeterminateFilter = useSelector((state) => state.filters.indeterminate)
   const checkedAllFilter = useSelector((state) => state.filters.checkAll)
 
+  // console.log(checkedFilter)
+
   const filtersOnCheck = (items) => {
     dispatch(filtersActions.setCheckedItems(items))
     dispatch(filtersActions.setIndeterminate(items.length && items.length < allFilters.length))
@@ -35,12 +37,8 @@ export default function Filters() {
   }
 
   useEffect(() => {
-    filtersOnCheck([])
-  }, [])
-
-  useEffect(() => {
     dispatch(fetchTickets())
-  }, [checkedFilter])
+  }, [checkedFilter, checkedAllFilter])
 
   return (
     <aside className={classes.filters}>

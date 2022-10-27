@@ -15,10 +15,6 @@ export default function Sorting() {
     dispatch(sortingActions.setValue(e.target.value))
   }
 
-  /* useEffect(() => {
-    dispatch(fetchTickets())
-  }, [sortingValue]) */
-
   useEffect(() => {
     dispatch(sortTickets(sortingValue))
   }, [sortingValue])

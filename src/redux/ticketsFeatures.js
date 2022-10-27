@@ -1,46 +1,48 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import ApiService from '../services/apiService'
-import { RequestError } from '../utils/error'
+import { myRequest } from '../utils'
 
-export const fetchTickets = createAsyncThunk(
-  'fetchTickets',
-  async function getTicketsAsync(_, { dispatch, getState, signal }) {
-    // eslint-disable-next-line no-use-before-define
-    dispatch(clear())
-    // eslint-disable-next-line no-useless-return
-    if (!getState().filters.checkedItems.length) return
+export const fetchTickets = createAsyncThunk('fetchTickets', async (_, { dispatch, getState, signal }) => {
+  // eslint-disable-next-line no-use-before-define
+  dispatch(clear())
+  // eslint-disable-next-line no-useless-return
+  if (!getState().filters.checkedItems.length) return
 
-    const id = await ApiService.getSearchID({ signal })
-    let stop = false
-    while (!stop) {
-      if (signal.aborted) throw new Error('Request has been aborted')
-      const filters = getState().filters.checkedItems
-      let packetTickets
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        packetTickets = await ApiService.getTickets(id, { signal })
-      } catch (err) {
-        if (err instanceof RequestError) {
-          setTimeout(() => {
-            getTicketsAsync(_, { dispatch, getState, signal })
-          }, 1500)
-        }
-        throw err
-      }
-      // console.log(packetTickets)
+  const id = await myRequest('https://aviasales-test-api.kata.academy/search', { signal })
+  let stop = false
+  while (!stop) {
+    if (signal.aborted) throw new Error('Request has been aborted')
+    const filters = getState().filters.checkedItems
+    // eslint-disable-next-line no-await-in-loop
+    const packetTickets = await myRequest(
+      `https://aviasales-test-api.kata.academy/tickets?searchId=${id.searchId}`,
+      { signal },
+      5
+    )
+    if (packetTickets.stop || signal.aborted || !filters.length) stop = true
+    packetTickets.tickets = packetTickets.tickets.filter((ticket) => {
+      const stopsLengthFirst = ticket.segments[0].stops.length
+      const stopsLengthSecond = ticket.segments[1].stops.length
 
-      if (packetTickets.stop || signal.aborted || !filters.length) stop = true
-      packetTickets.tickets = packetTickets.tickets.filter((ticket) =>
-        ticket.segments.some((segment) => filters.indexOf(segment.stops.length) !== -1)
+      const noChange = getState().filters.checkedItems[0]
+      const oneChange = getState().filters.checkedItems[1]
+      const twoChanges = getState().filters.checkedItems[2]
+      const threeChanges = getState().filters.checkedItems[3]
+      return (
+        (stopsLengthFirst === (noChange && 0) && stopsLengthSecond === (noChange && 0)) ||
+        (stopsLengthFirst === (oneChange && 1) && stopsLengthSecond === (oneChange && 1)) ||
+        (stopsLengthFirst === (twoChanges && 2) && stopsLengthSecond === (twoChanges && 2)) ||
+        (stopsLengthFirst === (threeChanges && 3) && stopsLengthSecond === (threeChanges && 3))
       )
+    })
 
-      if (signal.aborted) throw new Error('Request has been aborted')
-      // eslint-disable-next-line no-use-before-define
-      dispatch(supplyTickets(packetTickets.tickets))
-    }
+    // console.log(packetTickets)
+
+    if (signal.aborted) throw new Error('Request has been aborted')
+    // eslint-disable-next-line no-use-before-define
+    dispatch(supplyTickets(packetTickets.tickets))
   }
-)
+})
 
 export const ticketsSlice = createSlice({
   name: 'tickets',
