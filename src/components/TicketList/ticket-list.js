@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Spin, Result } from 'antd'
+import { nanoid } from '@reduxjs/toolkit'
 
 import Sorting from '../Sorting/sorting'
 import Ticket from '../Ticket/ticket'
@@ -17,11 +18,11 @@ export default function TicketList() {
   const ticketsLoading = useSelector((state) => state.tickets.loading)
   const ticketsError = useSelector((state) => state.tickets.error)
 
-  const ticketsRender = tickets.slice(0, ticketsCount).map((item, id) => {
+  const ticketsRender = tickets.slice(0, ticketsCount).map((item) => {
     const { carrier, price } = item
     const [from, to] = [item.segments[0], item.segments[1]]
 
-    return <Ticket key={`t${id + 1}`} data={{ carrier, price, from, to }} />
+    return <Ticket key={nanoid()} data={{ carrier, price, from, to }} />
   })
 
   const noResults = (
