@@ -19,6 +19,7 @@ export default function TicketList() {
   const ticketsError = useSelector((state) => state.tickets.error)
 
   const ticketsRender = tickets.slice(0, ticketsCount).map((item) => {
+    // вот тут перенести функцию
     const { carrier, price } = item
     const [from, to] = [item.segments[0], item.segments[1]]
 

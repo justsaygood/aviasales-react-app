@@ -7,7 +7,6 @@ export const sortingSlice = createSlice({
   },
   reducers: {
     setValue: (state, action) => {
-      // eslint-disable-next-line no-param-reassign
       state.value = action.payload
     },
   },

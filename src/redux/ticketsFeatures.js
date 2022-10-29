@@ -3,9 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { myRequest } from '../utils'
 
 export const fetchTickets = createAsyncThunk('fetchTickets', async (_, { dispatch, getState, signal }) => {
-  // eslint-disable-next-line no-use-before-define
   dispatch(clear())
-  // eslint-disable-next-line no-useless-return
   if (!getState().filters.checkedItems.length) return
 
   const id = await myRequest('https://aviasales-test-api.kata.academy/search', { signal })
@@ -20,6 +18,7 @@ export const fetchTickets = createAsyncThunk('fetchTickets', async (_, { dispatc
       5
     )
     if (packetTickets.stop || signal.aborted || !filters.length) stop = true
+
     packetTickets.tickets = packetTickets.tickets.filter((ticket) => {
       const stopsLengthFirst = ticket.segments[0].stops.length
       const stopsLengthSecond = ticket.segments[1].stops.length
@@ -38,8 +37,8 @@ export const fetchTickets = createAsyncThunk('fetchTickets', async (_, { dispatc
     })
 
     if (signal.aborted) throw new Error('Request has been aborted')
-    // eslint-disable-next-line no-use-before-define
-    dispatch(supplyTickets(packetTickets.tickets))
+    dispatch(supplyTickets(packetTickets.tickets)) // оставить только эту строку, все выше перенести в блок лист-билетов
+    // в виде функции, там фильтровать, слайсить и мапить
   }
 })
 
@@ -56,7 +55,7 @@ export const ticketsSlice = createSlice({
       state.ticketsCount += 5
     },
     supplyTickets: (state, action) => {
-      state.value = state.value.concat(action.payload)
+      state.value = [...state.value, ...action.payload]
     },
     sortTickets: (state, action) => {
       state.value = state.value.sort((a, b) => {
@@ -70,8 +69,7 @@ export const ticketsSlice = createSlice({
             if (action.payload !== 'optimal') break
           /* falls through */
           case 'fast': {
-            // eslint-disable-next-line no-plusplus
-            for (let i = 0; i < a.segments.length; i++) f2 += a.segments[i].duration - b.segments[i].duration
+            for (let i = 0; i < a.segments.length; i += 1) f2 += a.segments[i].duration - b.segments[i].duration
             break
           }
           default:

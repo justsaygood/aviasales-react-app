@@ -13,7 +13,6 @@ export const filtersSlice = createSlice({
     checkAll: true,
   },
   reducers: {
-    // eslint-disable-next-line no-return-assign, no-param-reassign,no-void
     setFilter: (state, action) => {
       const checkedItem = state.checkedItems.find((elem) => elem.value === action.payload.value)
       const singleFilter = state.checkedItems.filter((elem) => elem.value !== 1)
@@ -21,7 +20,6 @@ export const filtersSlice = createSlice({
 
       if (checkedItem.value === 1) {
         state.checkAll = !state.checkAll
-        // eslint-disable-next-line no-unused-expressions
         state.checkAll
           ? (state.checkedItems = state.checkedItems.map((elem) => ({ ...elem, isChecked: true })))
           : (state.checkedItems = state.checkedItems.map((elem) => ({ ...elem, isChecked: false })))

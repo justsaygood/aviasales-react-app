@@ -39,7 +39,10 @@
     "react/react-in-jsx-scope": "off",
     "class-methods-use-this": "off",
     "semi": ["error", "never"],
-    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }]
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "no-useless-return": "warn",
+    "no-use-before-define": ["error", { "variables": false }]
   },
   "settings": {
     "react": {

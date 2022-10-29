@@ -15,7 +15,7 @@ export default function Filters() {
 
   useEffect(() => {
     dispatch(fetchTickets())
-  }, [allFilters])
+  }, [dispatch])
 
   // console.log(allFilters)
   return (
