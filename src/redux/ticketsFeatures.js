@@ -19,26 +19,8 @@ export const fetchTickets = createAsyncThunk('fetchTickets', async (_, { dispatc
     )
     if (packetTickets.stop || signal.aborted || !filters.length) stop = true
 
-    packetTickets.tickets = packetTickets.tickets.filter((ticket) => {
-      const stopsLengthFirst = ticket.segments[0].stops.length
-      const stopsLengthSecond = ticket.segments[1].stops.length
-
-      const noChange = getState().filters.checkedItems[1].isChecked
-      const oneChange = getState().filters.checkedItems[2].isChecked
-      const twoChanges = getState().filters.checkedItems[3].isChecked
-      const threeChanges = getState().filters.checkedItems[4].isChecked
-
-      return (
-        (stopsLengthFirst === (noChange && 0) && stopsLengthSecond === (noChange && 0)) ||
-        (stopsLengthFirst === (oneChange && 1) && stopsLengthSecond === (oneChange && 1)) ||
-        (stopsLengthFirst === (twoChanges && 2) && stopsLengthSecond === (twoChanges && 2)) ||
-        (stopsLengthFirst === (threeChanges && 3) && stopsLengthSecond === (threeChanges && 3))
-      )
-    })
-
     if (signal.aborted) throw new Error('Request has been aborted')
-    dispatch(supplyTickets(packetTickets.tickets)) // оставить только эту строку, все выше перенести в блок лист-билетов
-    // в виде функции, там фильтровать, слайсить и мапить
+    dispatch(supplyTickets(packetTickets.tickets))
   }
 })
 

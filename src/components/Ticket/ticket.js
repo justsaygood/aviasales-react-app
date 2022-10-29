@@ -58,7 +58,7 @@ export default function Ticket({ data }) {
                 </>
               ) : (
                 <>
-                  <span>Прямой рейс</span>
+                  <span>Без пересадок</span>
                   <span />
                 </>
               )}
@@ -85,7 +85,7 @@ export default function Ticket({ data }) {
                 </>
               ) : (
                 <>
-                  <span>Прямой рейс</span>
+                  <span>Без пересадок</span>
                   <span />
                 </>
               )}

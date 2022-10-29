@@ -17,7 +17,6 @@ export default function Filters() {
     dispatch(fetchTickets())
   }, [dispatch])
 
-  // console.log(allFilters)
   return (
     <aside className={classes.filters}>
       <div className={classes['filters-title']}>Количество пересадок</div>

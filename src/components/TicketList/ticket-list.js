@@ -9,17 +9,32 @@ import { setTicketsCount } from '../../redux/ticketsFeatures'
 
 import classes from './ticket-list.module.scss'
 
-export default function TicketList() {
+export default function TicketList({ connection }) {
   const dispatch = useDispatch()
 
-  const { ticketsCount } = useSelector((state) => state.tickets)
+  const { ticketsCount, value } = useSelector((state) => state.tickets)
 
-  const tickets = useSelector((state) => state.tickets.value)
   const ticketsLoading = useSelector((state) => state.tickets.loading)
   const ticketsError = useSelector((state) => state.tickets.error)
 
-  const ticketsRender = tickets.slice(0, ticketsCount).map((item) => {
-    // вот тут перенести функцию
+  const noChange = useSelector((state) => state.filters.checkedItems[1].isChecked)
+  const oneChange = useSelector((state) => state.filters.checkedItems[2].isChecked)
+  const twoChanges = useSelector((state) => state.filters.checkedItems[3].isChecked)
+  const threeChanges = useSelector((state) => state.filters.checkedItems[4].isChecked)
+
+  const getPacketTickets = value.filter((ticket) => {
+    const stopsLengthFirst = ticket.segments[0].stops.length
+    const stopsLengthSecond = ticket.segments[1].stops.length
+
+    return (
+      (stopsLengthFirst === (noChange && 0) && stopsLengthSecond === (noChange && 0)) ||
+      (stopsLengthFirst === (oneChange && 1) && stopsLengthSecond === (oneChange && 1)) ||
+      (stopsLengthFirst === (twoChanges && 2) && stopsLengthSecond === (twoChanges && 2)) ||
+      (stopsLengthFirst === (threeChanges && 3) && stopsLengthSecond === (threeChanges && 3))
+    )
+  })
+
+  const ticketsRender = getPacketTickets.slice(0, ticketsCount).map((item) => {
     const { carrier, price } = item
     const [from, to] = [item.segments[0], item.segments[1]]
 
@@ -49,6 +64,7 @@ export default function TicketList() {
     <section className={classes['app-tickets']}>
       <Sorting />
       <ul>
+        {!connection ? errorResults && !ticketsRender : null}
         {(ticketsLoading && spinner) || null}
         {(ticketsRender.length && ticketsRender) || (!ticketsLoading && !ticketsError && noResults)}
         {!ticketsLoading && ticketsError && ticketsRender.length === 0 && errorResults}
